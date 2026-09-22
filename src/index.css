@@ -1,0 +1,447 @@
+/* =========================================================
+   Dmor Website
+   Global Design System
+   ========================================================= */
+
+
+/* =========================================================
+   GOOGLE FONT
+   Fustat → Supporting / UI / Body Font
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Italiana&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap');
+
+@import "tailwindcss";
+
+
+/* =========================================================
+   CUSTOM FONTS
+   ========================================================= */
+
+/*
+  Primary Font:
+  Dream Orphans
+  Used for:
+  - Main headings
+  - Hero typography
+  - Section headings
+  - Large statements
+  - Brand-focused text
+*/
+
+@font-face {
+  font-family: "Dream Orphans";
+  src: url("./assets/Magreb-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+/*
+  Accent / Editorial Font:
+  Eastern Harrogate
+  Used selectively for:
+  - Highlighted words
+  - Luxury statements
+  - Editorial text
+  - Decorative headings
+  - Short phrases
+*/
+
+@font-face {
+  font-family: "Eastern Harrogate";
+  src: url("./assets/eastern_harrogate.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+/* =========================================================
+   TAILWIND DESIGN TOKENS
+   ========================================================= */
+
+@theme {
+
+  /* -------------------------------------------------------
+     BRAND COLORS
+     ------------------------------------------------------- */
+
+  --color-brand: #C9C265;
+  --color-brand-light: #D8D39A;
+  --color-brand-dark: #AFA94D;
+
+  /* -------------------------------------------------------
+     CORE COLORS
+     ------------------------------------------------------- */
+
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+
+  /* -------------------------------------------------------
+     DARK BRAND
+     ------------------------------------------------------- */
+
+  --color-navy: #2F4156;
+
+  /* -------------------------------------------------------
+     NEUTRALS
+     ------------------------------------------------------- */
+
+  --color-gray: #555555;
+  --color-gray-light: #8DAEB6;
+  --color-cream: #EEEBE4;
+
+  /* -------------------------------------------------------
+     TYPOGRAPHY
+     ------------------------------------------------------- */
+
+  --font-display: "Dream Orphans", sans-serif;
+  --font-accent: "Eastern Harrogate", cursive;
+  --font-body: "Fustat", sans-serif;
+}
+
+
+/* =========================================================
+   ROOT DESIGN VARIABLES
+   ========================================================= */
+
+:root {
+
+  /* -------------------------------------------------------
+     BRAND
+     ------------------------------------------------------- */
+
+  --brand: #C9C265;
+  --brand-light: #D8D39A;
+  --brand-dark: #AFA94D;
+
+  /* -------------------------------------------------------
+     BACKGROUNDS
+     ------------------------------------------------------- */
+
+  --background: #FFFFFF;
+  --background-dark: #000000;
+  --background-navy: #2F4156;
+  --background-cream: #EEEBE4;
+
+  /* -------------------------------------------------------
+     TEXT
+     ------------------------------------------------------- */
+
+  --text-primary: #000000;
+  --text-secondary: #555555;
+  --text-light: #FFFFFF;
+
+  /* -------------------------------------------------------
+     FONT SYSTEM
+     ------------------------------------------------------- */
+
+  --font-primary: "Dream Orphans", sans-serif;
+  --font-accent: "Eastern Harrogate", cursive;
+  --font-body: "Fustat", sans-serif;
+}
+
+
+/* =========================================================
+   GLOBAL HTML
+   ========================================================= */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+
+/* =========================================================
+   BODY
+   ========================================================= */
+
+body {
+  margin: 0;
+  padding: 0;
+
+  background-color: var(--background);
+  color: var(--text-primary);
+
+  font-family: var(--font-body);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  text-rendering: optimizeLegibility;
+}
+
+
+/* =========================================================
+   TYPOGRAPHY SYSTEM
+   ========================================================= */
+
+
+/* Primary Display Font */
+
+.font-primary {
+  font-family: var(--font-primary);
+}
+
+
+/* Accent Font */
+
+.font-accent {
+  font-family: var(--font-accent);
+}
+
+
+/* Body Font */
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+
+/* =========================================================
+   HEADINGS
+   ========================================================= */
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-primary);
+  font-weight: 400;
+  margin: 0;
+}
+
+
+/* =========================================================
+   BODY TEXT
+   ========================================================= */
+
+p,
+span,
+li,
+a,
+button,
+input,
+textarea,
+select {
+  font-family: var(--font-body);
+}
+
+
+/* =========================================================
+   BRAND TEXT
+   ========================================================= */
+
+.text-brand {
+  color: var(--brand);
+}
+
+.text-brand-light {
+  color: var(--brand-light);
+}
+
+.text-brand-dark {
+  color: var(--brand-dark);
+}
+
+
+/* =========================================================
+   BRAND BACKGROUNDS
+   ========================================================= */
+
+.bg-brand {
+  background-color: var(--brand);
+}
+
+.bg-brand-light {
+  background-color: var(--brand-light);
+}
+
+.bg-brand-dark {
+  background-color: var(--brand-dark);
+}
+
+.bg-navy {
+  background-color: var(--background-navy);
+}
+
+.bg-cream {
+  background-color: var(--background-cream);
+}
+
+
+/* =========================================================
+   BRAND BORDERS
+   ========================================================= */
+
+.border-brand {
+  border-color: var(--brand);
+}
+
+.border-brand-light {
+  border-color: var(--brand-light);
+}
+
+.border-brand-dark {
+  border-color: var(--brand-dark);
+}
+
+
+/* =========================================================
+   SELECTION
+   ========================================================= */
+
+::selection {
+  background-color: var(--brand);
+  color: #000000;
+}
+
+
+/* =========================================================
+   FOCUS
+   ========================================================= */
+
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+}
+
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+
+/* =========================================================
+   BUTTON RESET
+   ========================================================= */
+
+button {
+  border: 0;
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   IMAGE SYSTEM
+   ========================================================= */
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+
+/* =========================================================
+   PREMIUM SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #EEEBE4;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C9C265;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #AFA94D;
+}
+
+
+/* =========================================================
+   SMOOTH FONT RENDERING
+   ========================================================= */
+
+.font-smooth {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+
+/* =========================================================
+   LUXURY TEXT UTILITIES
+   ========================================================= */
+
+.luxury-heading {
+  font-family: var(--font-primary);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.luxury-accent {
+  font-family: var(--font-accent);
+  font-weight: 400;
+}
+
+.luxury-body {
+  font-family: var(--font-body);
+}
+
+
+/* =========================================================
+   BRAND GRADIENT
+   ========================================================= */
+
+.brand-gradient {
+  background: linear-gradient(
+    135deg,
+    #C9C265 0%,
+    #D8D39A 50%,
+    #AFA94D 100%
+  );
+}
+
+
+/* =========================================================
+   BRAND GLOW
+   ========================================================= */
+
+.brand-glow {
+  box-shadow:
+    0 0 30px rgba(201, 194, 101, 0.18);
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
