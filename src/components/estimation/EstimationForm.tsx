@@ -8,8 +8,6 @@ interface EstimationFormProps {
   onClose: () => void;
 }
 
-
-
 export const EstimationForm: React.FC<EstimationFormProps> = ({ onClose }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<Partial<EstimationLead>>({
@@ -73,12 +71,10 @@ export const EstimationForm: React.FC<EstimationFormProps> = ({ onClose }) => {
   const handleNext = async () => {
     if (validateStep(currentStep)) {
       if (currentStep === 2) {
-        // Calculate estimate before moving to result screen
         setIsSubmitting(true);
         const calcResult = calculateEstimate(formData.service!, formData.projectDetails!);
         setEstimate(calcResult);
         
-        // Submit lead
         const lead: EstimationLead = {
           name: formData.name!,
           phone: formData.phone!,
@@ -103,8 +99,9 @@ export const EstimationForm: React.FC<EstimationFormProps> = ({ onClose }) => {
     }
   };
 
+  // Fixed: Added `|| ''` to ensure it always evaluates to a string, satisfying StepResult's props
   const serviceName = formData.service 
-    ? estimationServices.find((s) => s.id === formData.service)?.title 
+    ? estimationServices.find((s) => s.id === formData.service)?.title || ''
     : '';
 
   return (
