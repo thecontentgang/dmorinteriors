@@ -1,7 +1,6 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { useParams, Navigate, Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import PageTransition from '../../components/layout/PageTransition';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 import { projects } from '../../data/projects';
 
@@ -158,8 +157,9 @@ const Lightbox: React.FC<LightboxProps> = ({ images, startIndex, projectTitle, o
                   ? 'ring-1 ring-[#A68A64] ring-offset-1 ring-offset-[#0C0C0B]'
                   : 'opacity-40 hover:opacity-70'
               }`}
+              aria-label={`View image ${i + 1}`}
             >
-              <img src={img} alt="" className="w-full h-full object-cover" />
+              <img src={img} alt={`Thumbnail ${i + 1}`} className="w-full h-full object-cover" loading="lazy" decoding="async" />
             </button>
           ))}
         </div>
@@ -257,7 +257,7 @@ const ProjectDetails: React.FC = () => {
   ].filter((item) => Boolean(item.value));
 
   return (
-    <PageTransition>
+    <>
       <main className="w-full bg-[#E5E2DC] overflow-x-hidden pb-24 md:pb-40">
 
         {/* ─── Hero: Full-bleed Cinematic ─── */}
@@ -456,7 +456,7 @@ const ProjectDetails: React.FC = () => {
           />
         )}
       </AnimatePresence>
-    </PageTransition>
+    </>
   );
 };
 

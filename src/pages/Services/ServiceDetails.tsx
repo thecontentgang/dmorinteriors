@@ -1,6 +1,5 @@
 import React from 'react';
 import { useParams, Navigate, Link } from 'react-router-dom';
-import PageTransition from '../../components/layout/PageTransition';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 import { services } from '../../data/services';
 
@@ -15,7 +14,6 @@ const ServiceDetails: React.FC = () => {
   }
 
   return (
-    <PageTransition>
       <main className="min-h-screen bg-navy text-cream pt-32 pb-24 px-6 md:px-12">
         <div className="max-w-[1000px] mx-auto flex flex-col items-center text-center">
           
@@ -42,7 +40,6 @@ const ServiceDetails: React.FC = () => {
 
         </div>
       </main>
-    </PageTransition>
   );
 };
 

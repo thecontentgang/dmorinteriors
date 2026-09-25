@@ -119,6 +119,8 @@ const DesignPhilosophy: React.FC = () => {
                     src={principles.find(p => p.id === activeId)?.image}
                     alt="Design Philosophy"
                     className="w-full h-full object-cover"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <div className="absolute inset-0 bg-navy/10 mix-blend-multiply" />
                 </motion.div>

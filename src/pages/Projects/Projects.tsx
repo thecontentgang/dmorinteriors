@@ -1,7 +1,7 @@
+import AnimatedRevealButton from '../../components/buttons/AnimatedRevealButton';
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import PageTransition from '../../components/layout/PageTransition';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 import { projects } from '../../data/projects';
 import { useEstimation } from '../../context/EstimationContext';
@@ -56,7 +56,7 @@ const HeroSection = () => {
       {/* Background Parallax Image */}
       <motion.div style={{ y, opacity }} className="absolute inset-0 w-full h-[120%] -top-[10%]">
         <img
-          src="https://images.unsplash.com/photo-1600210491369-e753d80a41f3?auto=format&fit=crop&q=80&w=2000"
+          src="/images/backgrounds/dmor-project-hero.png"
           alt="DMOR Featured Projects"
           className="w-full h-full object-cover filter brightness-[0.6] grayscale-[20%]"
         />
@@ -175,21 +175,31 @@ const CTASection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+          className="flex justify-center md:justify-start"
         >
-          <button
+          <AnimatedRevealButton
+            className="shadow-xl w-full sm:w-auto"
             onClick={openEstimation}
-            className="group inline-flex items-center gap-4 md:gap-6 pl-8 pr-2 py-2 rounded-full border border-navy/20 bg-transparent hover:bg-brand shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer w-full sm:w-auto"
-          >
-            <span className="font-body text-sm md:text-base font-semibold text-navy group-hover:text-white transition-colors duration-300">
-              Get FREE consultation
-            </span>
-            <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-navy flex items-center justify-center text-white transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:rotate-45">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
-              </svg>
-            </div>
-          </button>
+            label="GET FREE CONSULTATION"
+            gap={16}
+            padding="8px 8px 8px 24px"
+            font={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}
+            colors={{
+              fill: "transparent", 
+              textColor: "#2F4156", 
+              hoverTextColor: "#FFFFFF" 
+            }}
+            border={{ borderColor: "rgba(47, 65, 86, 0.2)", borderWidth: 1 }} 
+            icon={{
+              type: "icon",
+              icon: "arrow-diagonal",
+              background: "#2F4156", 
+              color: "#FFFFFF",      
+              badgeSize: 48,
+              size: 16,
+              padding: 0
+            }}
+          />
         </motion.div>
 
       </div>
@@ -203,7 +213,7 @@ const Projects: React.FC = () => {
   useDocumentTitle('Projects | DMOR Interiors');
 
   return (
-    <PageTransition>
+    <>
       {/* Set main container background to your preferred page color */}
       <main className="min-h-screen bg-[#E5E2DC] overflow-x-hidden">
         
@@ -249,6 +259,8 @@ const Projects: React.FC = () => {
                           src={project.images[0]} // Taking the first image from your projects data array
                           alt={project.title}
                           className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-105"
+                          loading="lazy"
+                          decoding="async"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                       </div>
@@ -275,7 +287,7 @@ const Projects: React.FC = () => {
         <CTASection />
 
       </main>
-    </PageTransition>
+    </>
   );
 };
 

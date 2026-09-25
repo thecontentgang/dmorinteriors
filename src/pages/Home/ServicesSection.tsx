@@ -120,6 +120,8 @@ const ServicesSection: React.FC = () => {
                 src={service.image}
                 alt={service.title}
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-110"
+                loading="lazy"
+                decoding="async"
               />
               
               {/* Gradient Overlay for Text Visibility */}

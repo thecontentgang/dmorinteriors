@@ -1,7 +1,7 @@
+import AnimatedRevealButton from '../../components/buttons/AnimatedRevealButton';
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-import PageTransition from "../../components/layout/PageTransition";
 import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 import { useEstimation } from "../../context/EstimationContext";
 
@@ -246,6 +246,8 @@ const CTASection = () => {
                 src={image.src}
                 alt={image.alt}
                 className="absolute inset-0 w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </motion.div>
@@ -291,21 +293,31 @@ const CTASection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+            className="flex justify-center md:justify-start"
           >
-            <button
-                onClick={openEstimation}
-                className="group inline-flex items-center gap-4 md:gap-6 pl-8 pr-2 py-2 rounded-full border border-navy/20 bg-transparent hover:bg-brand shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer w-full sm:w-auto"
-            >
-                <span className="font-body text-sm md:text-base font-semibold text-navy group-hover:text-white transition-colors duration-300">
-                Get a consultation
-                </span>
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-brand flex items-center justify-center text-navy transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:rotate-45 group-hover:bg-white shrink-0">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="7" y1="17" x2="17" y2="7"></line>
-                    <polyline points="7 7 17 7 17 17"></polyline>
-                </svg>
-                </div>
-            </button>
+            <AnimatedRevealButton
+              className="shadow-xl w-full sm:w-auto"
+              onClick={openEstimation}
+              label="GET A CONSULTATION"
+              gap={16}
+              padding="8px 8px 8px 24px"
+              font={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}
+              colors={{
+                fill: "transparent", 
+                textColor: "#2F4156", 
+                hoverTextColor: "#2F4156" 
+              }}
+              border={{ borderColor: "rgba(47, 65, 86, 0.2)", borderWidth: 1 }} 
+              icon={{
+                type: "icon",
+                icon: "arrow-diagonal",
+                background: "#C6A87C", 
+                color: "#FFFFFF",      
+                badgeSize: 48,
+                size: 16,
+                padding: 0
+              }}
+            />
           </motion.div>
   
         </div>
@@ -319,13 +331,11 @@ const DesignsPage: React.FC = () => {
     useDocumentTitle("Design Systems | DMOR Interiors");
 
     return (
-        <PageTransition>
             <main className="w-full bg-[#E5E2DC] overflow-x-hidden">
                 <HeroSection />
                 <DesignSystemsList />
                 <CTASection />
             </main>
-        </PageTransition>
     );
 };
 

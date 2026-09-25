@@ -1,3 +1,4 @@
+import AnimatedRevealButton from '../../components/buttons/AnimatedRevealButton';
 import React from "react";
 import { motion } from "framer-motion";
 import { useEstimation } from "../../context/EstimationContext";
@@ -70,6 +71,8 @@ const CTASection: React.FC = () => {
               src={image.src}
               alt={image.alt}
               className="absolute inset-0 w-full h-full object-cover"
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </motion.div>
@@ -115,22 +118,31 @@ const CTASection: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+          className="flex justify-center"
         >
-          <button
+          <AnimatedRevealButton
+            className="shadow-xl"
             onClick={openEstimation}
-            type="button"
-            className="group inline-flex items-center gap-4 md:gap-6 pl-8 pr-2 py-2 rounded-full border border-navy/20 bg-[#E8E2D5] hover:bg-brand shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
-          >
-            <span className="font-body text-sm md:text-base font-semibold text-navy group-hover:text-white transition-colors duration-300">
-              Get FREE consultation
-            </span>
-            <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-navy flex items-center justify-center text-white transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:rotate-45">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
-              </svg>
-            </div>
-          </button>
+            label="GET FREE CONSULTATION"
+            gap={16}
+            padding="8px 8px 8px 24px"
+            font={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}
+            colors={{
+              fill: "#E8E2D5", // bg-cream 
+              textColor: "#2F4156", // text-navy
+              hoverTextColor: "#FFFFFF" 
+            }}
+            border={{ borderColor: "rgba(47, 65, 86, 0.2)", borderWidth: 1 }} 
+            icon={{
+              type: "icon",
+              icon: "arrow-diagonal",
+              background: "#2F4156", 
+              color: "#FFFFFF",      
+              badgeSize: 48,
+              size: 16,
+              padding: 0
+            }}
+          />
         </motion.div>
 
       </div>

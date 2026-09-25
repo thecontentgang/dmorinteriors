@@ -133,6 +133,8 @@ const WhyDmor: React.FC = () => {
                       src={reason.image}
                       alt="Refined Materiality"
                       className="absolute inset-0 w-full h-full object-cover object-top rounded-t-3xl border-t border-white/10 scale-105 group-hover:scale-100 transition-transform duration-700"
+                      loading="lazy"
+                      decoding="async"
                     />
                   </div>
                 )}

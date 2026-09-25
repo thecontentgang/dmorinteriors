@@ -1,9 +1,11 @@
-import { lazy, Suspense } from 'react';
+import { lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import DesignsPage from './pages/Designs/Designs';
 import { EstimationProvider } from './context/EstimationContext';
 import { EstimationModal } from './components/estimation/EstimationModal';
+import { SmoothScrollProvider } from './providers/SmoothScrollProvider';
+
 
 // Lazy loading pages for better performance
 const HomePage = lazy(() => import('./pages/Home/HomePage'));
@@ -16,18 +18,13 @@ const ProcessPage = lazy(() => import('./pages/Process/Process'));
 const ContactPage = lazy(() => import('./pages/Contact/Contact'));
 const NotFoundPage = lazy(() => import('./pages/NotFound/NotFound'));
 
-// Minimal loading state matching DMOR aesthetic
-const Loader = () => (
-  <div className="min-h-screen bg-navy text-brand flex items-center justify-center">
-    <div className="w-12 h-12 border-2 border-brand/20 border-t-brand rounded-full animate-spin"></div>
-  </div>
-);
 
 const App = () => {
   return (
-    <EstimationProvider>
-      <BrowserRouter>
-        <Suspense fallback={<Loader />}>
+    
+      <SmoothScrollProvider>
+        <EstimationProvider>
+          <BrowserRouter>
           <Routes>
             <Route element={<Layout />}>
               <Route path="/" element={<HomePage />} />
@@ -44,10 +41,10 @@ const App = () => {
               <Route path="*" element={<NotFoundPage />} />
             </Route>
           </Routes>
-        </Suspense>
       </BrowserRouter>
       <EstimationModal />
-    </EstimationProvider>
+      </EstimationProvider>
+    </SmoothScrollProvider>
   );
 };
 

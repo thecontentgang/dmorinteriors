@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 const testimonials = [
@@ -43,12 +43,27 @@ const testimonials = [
 
 // ─── Component ───────────────────────────────────────────────────────────────
 const TestimonialsSection: React.FC = () => {
-  const SCROLL_SPEED = 45; // Faster scroll for smaller cards
   const EDGE_FADE = "10%";
 
   return (
     <section className="relative w-full bg-cream py-20 md:py-28 lg:py-32 overflow-hidden">
       
+      {/* Injecting custom CSS for the interactive marquee */}
+      <style>
+        {`
+          @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+          }
+          .animate-marquee {
+            animation: marquee 45s linear infinite;
+          }
+          .animate-marquee:hover {
+            animation-play-state: paused;
+          }
+        `}
+      </style>
+
       {/* ── Section Header ── */}
       <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20 xl:px-32 flex flex-col items-center text-center mb-12 md:mb-16 w-full">
         
@@ -76,15 +91,7 @@ const TestimonialsSection: React.FC = () => {
           maskImage: `linear-gradient(to right, transparent 0, black ${EDGE_FADE}, black calc(100% - ${EDGE_FADE}), transparent 100%)`,
         }}
       >
-        <motion.div
-          className="flex w-max cursor-grab active:cursor-grabbing"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{
-            repeat: Infinity,
-            ease: "linear",
-            duration: SCROLL_SPEED,
-          }}
-        >
+        <div className="flex w-max animate-marquee cursor-pointer">
           {/* Two sets of cards for seamless infinite scroll */}
           {[0, 1].map((setIndex) => (
             <div key={setIndex} className="flex gap-5 md:gap-6 pr-5 md:pr-6">
@@ -124,7 +131,7 @@ const TestimonialsSection: React.FC = () => {
 
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
 
     </section>

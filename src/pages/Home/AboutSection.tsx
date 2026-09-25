@@ -1,127 +1,168 @@
-import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-// ─── Reusable Pill Button Component ──────────────────────────────────────────
-const PillButton = ({ text, href, className = "" }: { text: string; href: string; className?: string }) => {
-  return (
-    <Link
-      to={href}
-      className={`group inline-flex items-center gap-4 md:gap-6 pl-6 md:pl-8 pr-1.5 md:pr-2 py-1.5 md:py-2 rounded-full border border-navy/20 bg-transparent hover:bg-brand shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer w-fit ${className}`}
-    >
-      <span className="font-body text-sm md:text-base font-semibold text-navy group-hover:text-white transition-colors duration-300">
-        {text}
-      </span>
-      <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-navy flex items-center justify-center text-white transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:rotate-45 group-hover:bg-white group-hover:text-navy shrink-0">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <line x1="7" y1="17" x2="17" y2="7"></line>
-          <polyline points="7 7 17 7 17 17"></polyline>
-        </svg>
-      </div>
-    </Link>
-  );
-};
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
 
-// ─── Component ───────────────────────────────────────────────────────────────
 const AboutSection: React.FC = () => {
-  const containerRef = useRef<HTMLElement>(null);
+  const wrapperRef = useRef<HTMLElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
+  // Array ref to store all individual character spans
+  const charsRef = useRef<(HTMLSpanElement | null)[]>([]);
 
-  // Parallax effects
-  const imageY = useTransform(scrollYProgress, [0, 1], [-50, 50]);
-  const textY = useTransform(scrollYProgress, [0, 1], [30, -30]);
+  // The text to display in the horizontal scroll
+  const contentText = "We design more than interiors. We craft environments of enduring quality.";
+
+  // A collection of images to fill the top and bottom space
+  const floatingImages = [
+    { src: "/images/projects/akruthi/akruthi-9.jpg", top: "5%", left: "110vw", width: "w-[40vw] md:w-[22vw]", aspect: "aspect-[3/4]" },
+    { src: "/images/projects/nyla/nyla-4.jpg", bottom: "5%", left: "150vw", width: "w-[45vw] md:w-[28vw]", aspect: "aspect-[16/9]" },
+    { src: "/images/projects/nyla/nyla-10.jpg", top: "12%", left: "210vw", width: "w-[35vw] md:w-[20vw]", aspect: "aspect-square" },
+    { src: "/images/projects/risiniaedge/risinia-edge-7.jpg", bottom: "8%", left: "270vw", width: "w-[38vw] md:w-[24vw]", aspect: "aspect-[4/3]" },
+    { src: "/images/projects/risiniaedge/risinia-edge-19.jpg", top: "8%", left: "330vw", width: "w-[40vw] md:w-[22vw]", aspect: "aspect-[3/4]" },
+  ];
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const getScrollAmount = () => {
+        return scrollContainerRef.current ? scrollContainerRef.current.scrollWidth - window.innerWidth : 0;
+      };
+
+      // 1. The main horizontal scrolling tween targeting the entire container (text + images)
+      const scrollTween = gsap.to(scrollContainerRef.current, {
+        x: () => -getScrollAmount(),
+        ease: "none",
+        scrollTrigger: {
+          trigger: wrapperRef.current,
+          pin: true,
+          pinSpacing: true,
+          anticipatePin: 1,
+          end: () => `+=${getScrollAmount()}`,
+          scrub: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      // 2. Animate each character as it enters the viewport horizontally
+      charsRef.current.forEach((char) => {
+        if (char) {
+          gsap.from(char, {
+            yPercent: "random(-200, 200)",
+            rotation: "random(-20, 20)",
+            opacity: 0,
+            ease: "back.out(1.2)",
+            scrollTrigger: {
+              trigger: char,
+              containerAnimation: scrollTween,
+              start: "left 95%",
+              end: "left 40%",
+              scrub: 1,
+            },
+          });
+        }
+      });
+
+      // 3. Add stunning parallax to the floating background images
+      // Fixed TS Error: Cast to HTMLElement[] instead of using 'any'
+      const imageContainers = gsap.utils.toArray(".parallax-img-container") as HTMLElement[];
+
+      imageContainers.forEach((container) => {
+        const img = container.querySelector("img");
+
+        if (img) {
+          // Subtle image zoom and shift tied to the horizontal scroll
+          gsap.fromTo(img,
+            { scale: 1.25, xPercent: -15, rotation: -2 },
+            {
+              scale: 1,
+              xPercent: 15,
+              rotation: 2,
+              ease: "none",
+              scrollTrigger: {
+                trigger: container,
+                containerAnimation: scrollTween,
+                start: "left right",
+                end: "right left",
+                scrub: true,
+              }
+            }
+          );
+        }
+      });
+
+    }, wrapperRef);
+
+    return () => ctx.revert(); // Cleanup GSAP and ScrollTrigger instances on unmount
+  }, []);
 
   return (
     <section
-      ref={containerRef}
-      className="relative w-full bg-background py-24 md:py-32 px-6 lg:px-12 overflow-hidden min-h-[90vh] flex items-center"
+      ref={wrapperRef}
+      className="relative z-0 w-full h-screen bg-cream overflow-hidden flex items-center"
     >
-      <div className="max-w-[1400px] mx-auto w-full flex flex-col gap-20 lg:gap-32 relative z-10">
+      {/* 
+        This is the container that actually moves horizontally. 
+        It holds both the text in the middle and the absolute images above and below.
+      */}
+      <div
+        ref={scrollContainerRef}
+        className="relative h-full flex items-center w-max pl-[100vw] pr-[30vw]"
+      >
 
-        {/* ── TOP ROW: Headline (Left) & Image (Right) ── */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8 w-full">
-
-          {/* Top Left: Massive Heading */}
-          <motion.div
-            style={{ y: textY }}
-            className="w-full lg:w-1/2 flex flex-col"
+        {/* ================================================================
+            FLOATING BACKGROUND IMAGES
+            ================================================================ */}
+        {floatingImages.map((img, index) => (
+          <div
+            key={index}
+            // Removed rounded-2xl and shadow-2xl for flat, sharp floating blocks
+            className={`parallax-img-container absolute overflow-hidden ${img.width} ${img.aspect}`}
+            style={{
+              top: img.top,
+              bottom: img.bottom,
+              left: img.left,
+            }}
           >
-            <div className="flex items-center gap-4 mb-8 lg:mb-12">
-              <span className="w-12 h-[1px] bg-brand" />
-              <span className="font-body text-xs md:text-sm uppercase tracking-[0.3em] text-navy/80">
-                The Studio
-              </span>
-            </div>
-
-            <h2 className="text-navy leading-[1.05] md:leading-[1] tracking-tight">
-              <span className="font-primary text-5xl sm:text-6xl md:text-7xl lg:text-[7.5rem] block text-navy">
-                We design
-              </span>
-              <span className="font-primary text-5xl sm:text-6xl md:text-7xl lg:text-[7.5rem] block text-navy lg:ml-12">
-                more than
-              </span>
-              <span className="font-accent text-brand italic text-7xl sm:text-8xl md:text-[8rem] lg:text-[10rem] block -mt-2 md:-mt-6 lg:-mt-8 lg:ml-24 drop-shadow-sm">
-                interiors.
-              </span>
-            </h2>
-          </motion.div>
-
-          {/* Top Right: Masked Image */}
-          <motion.div
-            style={{ y: imageY }}
-            className="w-full lg:w-1/2 flex justify-center lg:justify-end"
-          >
-            <div className="relative w-full max-w-[500px] lg:max-w-[650px] aspect-square flex items-center justify-center">
-              <div
-                className="w-full h-full"
-                style={{
-                  WebkitMaskImage: "url('/images/backgrounds/swril-image.png')",
-                  WebkitMaskSize: "contain",
-                  WebkitMaskPosition: "center",
-                  WebkitMaskRepeat: "no-repeat",
-                  maskImage: "url('/images/backgrounds/swril-image.png')",
-                  maskSize: "contain",
-                  maskPosition: "center",
-                  maskRepeat: "no-repeat",
-                }}
-              >
-                <img
-                  src="/images/hero/about.png"
-                  alt="Editorial Interior by DMOR"
-                  className="w-full h-full object-cover scale-110 hover:scale-105 transition-transform duration-700 ease-out"
-                />
-                <div className="absolute inset-0 bg-navy/5 mix-blend-multiply pointer-events-none" />
-              </div>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* ── BOTTOM ROW: Centered Content & Button ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          className="w-full max-w-3xl mx-auto flex flex-col items-center text-center gap-10"
-        >
-          {/* Text Block */}
-          <div className="flex flex-col gap-6 font-body text-navy/80 text-base md:text-lg leading-relaxed tracking-wide">
-            <p>
-              <strong>DMOR</strong> is a luxury architectural design practice rooted in the belief that spaces dictate how we feel and live. Our philosophy bridges the gap between minimalist elegance and profound, lived-in warmth.
-            </p>
-            <p className="text-sm md:text-base text-navy/70">
-              By prioritizing tactile, authentic materials and an uncompromising attention to detail, we craft environments of enduring quality. Guided by a highly collaborative, client-first process, we go beyond aesthetics to deliver bespoke sanctuaries that truly feel like home.
-            </p>
+            <img
+              src={img.src}
+              alt="DMOR Interior"
+              className="w-full h-full object-cover origin-center"
+              loading="lazy"
+              decoding="async"
+            />
+            {/* Elegant overlay to ensure text stays dominant if they overlap slightly */}
+            <div className="absolute inset-0 bg-navy/10 mix-blend-multiply pointer-events-none" />
           </div>
+        ))}
 
-          {/* Consistent Pill Button */}
-          <PillButton text="Discover DMOR" href="/about" />
-          
-        </motion.div>
+        {/* ================================================================
+            SCROLLING TEXT
+            ================================================================ */}
+        <h3
+          className="relative z-10 font-primary flex w-max whitespace-nowrap gap-[2vw] md:gap-[4vw] font-primary text-navy leading-[1.1] tracking-tight drop-shadow-md"
+          style={{ fontSize: "clamp(3rem, 10vw, 12rem)" }}
+        >
+          {/* We split by words first to apply the gap, then by characters for the animation */}
+          {contentText.split(" ").map((word, wordIndex) => (
+            <div key={wordIndex} className="flex">
+              {word.split("").map((char, charIndex) => {
+                const index = wordIndex * 100 + charIndex;
+                return (
+                  <span
+                    key={charIndex}
+                    ref={(el) => { charsRef.current[index] = el; }}
+                    className="inline-block origin-center font-primary"
+                  >
+                    {char}
+                  </span>
+                );
+              })}
+            </div>
+          ))}
+        </h3>
+
       </div>
     </section>
   );

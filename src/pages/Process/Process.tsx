@@ -1,12 +1,10 @@
 import React from 'react';
-import PageTransition from '../../components/layout/PageTransition';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 
 const Process: React.FC = () => {
   useDocumentTitle('Our Process | DMOR Interiors');
 
   return (
-    <PageTransition>
       <main className="min-h-screen bg-[#F9F7F4] text-navy pt-32 pb-24 px-6 md:px-12">
         <div className="max-w-[1400px] mx-auto">
           <div className="flex items-center gap-4 mb-6">
@@ -35,7 +33,6 @@ const Process: React.FC = () => {
           </div>
         </div>
       </main>
-    </PageTransition>
   );
 };
 

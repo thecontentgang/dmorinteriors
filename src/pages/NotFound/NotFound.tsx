@@ -1,13 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PageTransition from '../../components/layout/PageTransition';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 
 const NotFound: React.FC = () => {
   useDocumentTitle('404 Not Found | DMOR Interiors');
 
   return (
-    <PageTransition>
       <main className="min-h-screen bg-navy text-cream flex flex-col items-center justify-center text-center px-6">
         <h1 className="font-primary text-8xl md:text-[10rem] text-brand mb-4">404</h1>
         <h2 className="font-primary text-3xl md:text-5xl mb-8">
@@ -20,7 +18,6 @@ const NotFound: React.FC = () => {
           Back to Home
         </Link>
       </main>
-    </PageTransition>
   );
 };
 

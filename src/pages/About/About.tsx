@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import PageTransition from "../../components/layout/PageTransition";
 import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -300,17 +299,19 @@ const CtaSection = () => {
 // ─── Main Page Export ─────────────────────────────────────────────────────────
 
 const AboutPage: React.FC = () => {
-  useDocumentTitle("About DMOR | Interior Architecture & Design");
+  useDocumentTitle({
+    title: "About DMOR | Interior Architecture & Design",
+    description: "Learn about DMOR Interiors' philosophy, our design process, and our commitment to crafting environments of enduring quality.",
+    canonical: "https://dmor.com/about"
+  });
 
   return (
-    <PageTransition>
       <main className="w-full bg-background overflow-x-hidden">
         <HeroSection />
         <PhilosophySection />
         <TeamSection />
         <CtaSection />
       </main>
-    </PageTransition>
   );
 };
 

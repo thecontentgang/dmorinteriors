@@ -7,17 +7,20 @@ import SignatureProject from "./SignatureProject"
 // import StudioProcessAndStats from "./StudioProcessandSteps"
 import TestimonialsSection from "./TestimonialSection"
 import WhyDmor from "./WhyDmor"
-import PageTransition from "../../components/layout/PageTransition"
 import { useDocumentTitle } from "../../hooks/useDocumentTitle"
 
 import CTASection from "./CTASection"
 
 
 const HomePage = () => {
-  useDocumentTitle("DMOR Interiors | Interior Architecture & Design");
+  useDocumentTitle({
+    title: "DMOR Interiors | Interior Architecture & Design",
+    description: "DMOR Interiors creates enduring, bespoke spaces in Hyderabad. Explore our signature residential interiors, tailored design systems, and unparalleled craftsmanship.",
+    canonical: "https://dmor.com/"
+  });
 
   return (
-    <PageTransition>
+    <>
     <HeroSection />
     <AboutSection />
     <FeaturedProjects />
@@ -28,7 +31,7 @@ const HomePage = () => {
     {/* <StudioProcessAndStats /> */}
     <TestimonialsSection />
     <CTASection />
-    </PageTransition>
+    </>
   )
 }
 

@@ -1,7 +1,7 @@
+import AnimatedRevealButton from '../../components/buttons/AnimatedRevealButton';
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
-import PageTransition from "../../components/layout/PageTransition";
 import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 import { useEstimation } from "../../context/EstimationContext";
 
@@ -271,28 +271,37 @@ const CTASection: React.FC = () => {
           <span className="font-accent text-brand italic block mt-2">vision to life?</span>
         </motion.h2>
 
-        {/* CTA Button */}
+        {/* Pill Shaped CTA Button */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+          className="flex justify-center md:justify-start"
         >
-          <button
+          <AnimatedRevealButton
+            className="shadow-xl w-full sm:w-auto"
             onClick={openEstimation}
-            type="button"
-            className="group inline-flex items-center gap-4 md:gap-6 pl-8 pr-2 py-2 rounded-full border border-navy/20 bg-[#E8E2D5] hover:bg-brand shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
-          >
-            <span className="font-body text-sm md:text-base font-semibold text-navy group-hover:text-white transition-colors duration-300">
-              Get FREE consultation
-            </span>
-            <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-navy flex items-center justify-center text-white transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:rotate-45">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
-              </svg>
-            </div>
-          </button>
+            label="GET FREE CONSULTATION"
+            gap={16}
+            padding="8px 8px 8px 24px"
+            font={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}
+            colors={{
+              fill: "#E8E2D5", 
+              textColor: "#2F4156", 
+              hoverTextColor: "#FFFFFF" 
+            }}
+            border={{ borderColor: "rgba(47, 65, 86, 0.2)", borderWidth: 1 }} 
+            icon={{
+              type: "icon",
+              icon: "arrow-diagonal",
+              background: "#2F4156", 
+              color: "#FFFFFF",      
+              badgeSize: 48,
+              size: 16,
+              padding: 0
+            }}
+          />
         </motion.div>
 
       </div>
@@ -306,13 +315,11 @@ const ServicesPage: React.FC = () => {
   useDocumentTitle("Services | DMOR Interiors");
 
   return (
-    <PageTransition>
       <main className="w-full bg-cream overflow-x-hidden">
         <HeroSection />
         <ServicesList />
         <CTASection />
       </main>
-    </PageTransition>
   );
 };
 

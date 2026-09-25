@@ -1,181 +1,148 @@
-import React, { useRef } from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import AnimatedRevealButton from "../../components/buttons/AnimatedRevealButton";
+
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
+
+// Track if the intro has played during this session/reload
+
 
 const HeroSection: React.FC = () => {
-  const containerRef = useRef<HTMLElement>(null);
+  const compRef = useRef<HTMLElement>(null);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // ================================================================
+      // 1. INITIAL ENTRANCE ANIMATION (DMOR Fade -> Content Reveal)
+      // ================================================================
+      const tl = gsap.timeline();
 
-  // ================================================================
-  // ARCH ANIMATION
-  // ================================================================
+      tl.to(".intro-text", { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" })
+        .to(".intro-text", { opacity: 0, y: -20, duration: 0.8, delay: 0.6, ease: "power3.in" })
+        .to(".intro-overlay", {
+          opacity: 0, duration: 1.2, ease: "power2.inOut",
+          onComplete: () => gsap.set(".intro-overlay", { display: "none" })
+        })
+        .fromTo(".hero-video", { scale: 1.15 }, { scale: 1, duration: 3, ease: "power3.out" }, "-=1")
+        .fromTo(".hero-title", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, ease: "power3.out" }, "-=2.2")
+        .fromTo(".hero-btn", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power2.out" }, "-=1.6")
+        .fromTo(".hero-stat", { y: 15, opacity: 0 }, { y: 0, opacity: 1, duration: 1, stagger: 0.15, ease: "power2.out" }, "-=0.6");
 
-  // Phase 1: Arch grows vertically from 80vh → 100vh
-  const archHeight = useTransform(
-    scrollYProgress,
-    [0, 0.4],
-    ["80vh", "100vh"]
-  );
+      // ================================================================
+      // 2. SCROLL ANIMATION (Tablet, Laptop, Desktop only)
+      // ================================================================
+      const mm = gsap.matchMedia();
+      mm.add("(min-width: 768px)", () => {
+        gsap.to(".hero-video", {
+          scale: 1.25, ease: "none",
+          scrollTrigger: { trigger: compRef.current, start: "top top", end: "bottom top", scrub: true },
+        });
+      });
+    }, compRef);
 
-  // Phase 2: Arch expands horizontally to fill the viewport
-  const archMaxWidth = useTransform(
-    scrollYProgress,
-    [0, 0.4, 0.8],
-    ["550px", "550px", "4000px"]
-  );
-
-  // Rounded arch → full-screen rectangle
-  const archBorderRadius = useTransform(
-    scrollYProgress,
-    [0, 0.4, 0.8],
-    ["275px", "275px", "0px"]
-  );
-
-  // ================================================================
-  // CONTENT ANIMATIONS
-  // ================================================================
-
-  // Hero Text moves from center to top as user scrolls
-  const heroTextY = useTransform(
-    scrollYProgress,
-    [0.4, 0.85],
-    ["0vh", "-25vh"]
-  );
-
-  // Lower Content fades in right as the width expansion finishes
-  const contentOpacity = useTransform(
-    scrollYProgress,
-    [0.65, 0.85, 1], 
-    [0, 1, 1]        
-  );
-
-  // Lower Content slides up into place and locks securely
-  const contentY = useTransform(
-    scrollYProgress,
-    [0.65, 0.85, 1],
-    [40, 0, 0]
-  );
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section
-      ref={containerRef}
-      className="relative w-full h-[300vh] bg-cream"
-    >
-      {/* ============================================================
-          STICKY HERO
-          ============================================================ */}
-      <div className="sticky top-0 w-full h-screen flex flex-col items-center justify-end overflow-hidden bg-cream">
-        
-        {/* ==========================================================
-            ANIMATED ARCH CONTAINER
-            ========================================================== */}
-        <motion.div
-          style={{
-            height: archHeight,
-            maxWidth: archMaxWidth,
-            borderTopLeftRadius: archBorderRadius,
-            borderTopRightRadius: archBorderRadius,
-          }}
-          className="relative w-full overflow-hidden shadow-2xl"
-        >
-          {/* ========================================================
-              VIDEO
-              ======================================================== */}
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none z-0"
-          >
-            <source src="/videos/dmor-hero.mp4" type="video/mp4" />
-          </video>
+    <section ref={compRef} className="relative w-full h-screen bg-navy flex flex-col items-center justify-center overflow-hidden">
 
-          {/* ========================================================
-              DARK OVERLAY
-              ======================================================== */}
-          <div className="absolute inset-0 bg-black/30 bg-gradient-to-b from-black/20 via-transparent to-black/65 z-10 pointer-events-none" />
-
-          {/* ========================================================
-              CENTERED HERO TYPOGRAPHY (Moves to top on scroll)
-              ======================================================== */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center z-20 pointer-events-none pb-[10vh] md:pb-[15vh]">
-            <motion.div style={{ y: heroTextY }}>
-              <motion.h1
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                className="font-primary text-white text-4xl md:text-6xl lg:text-7xl leading-[1.1] tracking-wide"
-              >
-                <span className="font-accent text-brand block mb-2 lowercase text-5xl md:text-7xl lg:text-8xl tracking-normal">
-                  For the best
-                </span>
-                Interior Experience...
-              </motion.h1>
-            </motion.div>
-          </div>
-
-          {/* ========================================================
-              LOWER CONTENT (Appears AFTER expansion)
-              ======================================================== */}
-          <motion.div
-            style={{
-              opacity: contentOpacity,
-              y: contentY,
-            }}
-            className="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-end gap-8 md:gap-12 px-6 pb-24 md:pb-36 lg:pb-48 z-[50] max-w-3xl lg:max-w-4xl mx-auto text-center pointer-events-auto"
-          >
-            {/* Description */}
-            <p className="font-body text-cream/90 text-base md:text-lg lg:text-xl leading-relaxed tracking-wide drop-shadow-md">
-              Transforming spaces into timeless sanctuaries. Experience unparalleled luxury with our bespoke interior design architecture, crafted specifically for the modern connoisseur.
-            </p>
-
-            {/* Centered Metrics */}
-            <div className="flex items-center justify-center gap-12 md:gap-20">
-              <div className="flex flex-col items-center">
-                <span className="font-primary text-5xl md:text-6xl text-white tracking-wide drop-shadow-md">150+</span>
-                <span className="font-body text-xs md:text-sm text-brand uppercase tracking-[0.2em] mt-1 drop-shadow-sm">Projects</span>
-              </div>
-              
-              {/* Divider Line */}
-              <div className="w-[1px] h-14 md:h-20 bg-brand/50"></div>
-              
-              <div className="flex flex-col items-center">
-                <span className="font-primary text-5xl md:text-6xl text-white tracking-wide drop-shadow-md">25+</span>
-                <span className="font-body text-xs md:text-sm text-brand uppercase tracking-[0.2em] mt-1 drop-shadow-sm">Awards</span>
-              </div>
-            </div>
-
-            {/* Working Action Links */}
-            <div className="flex gap-4 md:gap-6 mt-2">
-              <Link
-                to="/projects"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="px-8 py-3.5 md:px-10 md:py-4 border border-brand bg-brand text-navy rounded-full font-body text-sm md:text-base tracking-widest uppercase hover:bg-white hover:border-white transition-colors duration-300 cursor-pointer shadow-md text-center"
-              >
-                Explore
-              </Link>
-              <Link
-                to="/contact"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="px-8 py-3.5 md:px-10 md:py-4 border border-white/30 bg-white/5 backdrop-blur-md text-white rounded-full font-body text-sm md:text-base tracking-widest uppercase hover:bg-white hover:text-navy transition-colors duration-300 cursor-pointer shadow-md text-center"
-              >
-                Contact
-              </Link>
-            </div>
-          </motion.div>
-
-        </motion.div>
+      {/* Intro Overlay */}
+      <div className="intro-overlay absolute inset-0 z-50 bg-navy flex items-center justify-center">
+        <h2 className="intro-text font-primary text-cream tracking-[0.3em] uppercase text-4xl md:text-6xl opacity-0 translate-y-8">
+          DMOR
+        </h2>
       </div>
+
+      {/* Video Background */}
+      <video autoPlay muted loop playsInline preload="auto" className="hero-video absolute inset-0 w-full h-full object-cover z-0">
+        <source src="/videos/dmor-hero.mp4" type="video/mp4" />
+      </video>
+
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-navy/40 md:bg-navy/30 pointer-events-none z-10" />
+
+      {/* Content */}
+      <div className="relative z-20 flex flex-col items-center justify-center px-4 md:px-8 text-center w-full">
+        <h1 className="hero-title opacity-0 font-primary text-cream leading-[1.1] tracking-tight text-5xl md:text-7xl lg:text-[7.5rem] max-w-5xl mx-auto drop-shadow-lg">
+          Elevating the <span className="text-brand font-accent italic px-2">art</span> of living.
+        </h1>
+
+        {/* ================================================================
+            ORIGINKIT BUTTONS (Matching Original Styling Precisely)
+            ================================================================ */}
+        <div className="flex flex-wrap items-center justify-center gap-4 mt-10 md:mt-16">
+
+          <AnimatedRevealButton
+            className="hero-btn opacity-0 backdrop-blur-sm rounded-full shadow-lg"
+            to="/projects"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            label="EXPLORE"
+            gap={12} // Matches gap-3
+            padding="6px 6px 6px 20px" // Exactly matches py-1.5, pr-1.5, pl-5
+            font={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase" }}
+            colors={{
+              fill: "rgba(255, 255, 255, 0.1)", // Matches bg-white/10
+              textColor: "#FFFFFF",
+              hoverTextColor: "#2F4156"
+            }}
+            border={{ borderColor: "rgba(255, 255, 255, 0.2)", borderWidth: 1 }} // Matches border-white/20
+            icon={{
+              type: "icon",
+              icon: "arrow-diagonal",
+              background: "#FFFFFF", // White expanding circle
+              color: "#2F4156",      // Navy arrow
+              badgeSize: 40,         // Exactly matches w-10 h-10
+              size: 14,              // Exactly matches your 14px svg icon
+              padding: 0
+            }}
+          />
+
+          <AnimatedRevealButton
+            className="hero-btn opacity-0 backdrop-blur-sm rounded-full shadow-lg"
+            to="/contact"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            label="CONTACT"
+            gap={12}
+            padding="6px 6px 6px 20px"
+            font={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase" }}
+            colors={{
+              fill: "rgba(255, 255, 255, 0.1)",
+              textColor: "#FFFFFF",
+              hoverTextColor: "#2F4156"
+            }}
+            border={{ borderColor: "rgba(255, 255, 255, 0.2)", borderWidth: 1 }}
+            icon={{
+              type: "icon",
+              icon: "arrow-diagonal",
+              background: "#FFFFFF",
+              color: "#2F4156",
+              badgeSize: 40,
+              size: 14,
+              padding: 0
+            }}
+          />
+
+        </div>
+      </div>
+
+      {/* Stats */}
+      <div className="absolute bottom-8 md:bottom-12 w-full px-6 md:px-16 z-20 flex flex-wrap md:flex-nowrap justify-center md:justify-between items-end gap-8 md:gap-0">
+        <div className="hero-stat opacity-0 flex flex-col items-center md:items-start text-center md:text-left">
+          <span className="font-primary text-2xl md:text-3xl lg:text-4xl text-brand leading-none mb-1">15+</span>
+          <span className="font-body text-[8px] md:text-[9px] uppercase tracking-[0.25em] text-white/60 font-medium">Years of Excellence</span>
+        </div>
+        <div className="hero-stat opacity-0 flex flex-col items-center text-center">
+          <span className="font-primary text-2xl md:text-3xl lg:text-4xl text-brand leading-none mb-1">200+</span>
+          <span className="font-body text-[8px] md:text-[9px] uppercase tracking-[0.25em] text-white/60 font-medium">Curated Spaces</span>
+        </div>
+        <div className="hero-stat opacity-0 flex flex-col items-center md:items-end text-center md:text-right">
+          <span className="font-primary text-2xl md:text-3xl lg:text-4xl text-brand leading-none mb-1">12</span>
+          <span className="font-body text-[8px] md:text-[9px] uppercase tracking-[0.25em] text-white/60 font-medium">Design Awards</span>
+        </div>
+      </div>
+
     </section>
   );
 };

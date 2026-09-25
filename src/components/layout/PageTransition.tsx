@@ -1,36 +1,29 @@
-import React from 'react';
-import { motion, useReducedMotion, type Variants } from 'framer-motion';
+import React, { Suspense } from 'react';
+import { AnimatePresence } from 'framer-motion';
+import { useLocation, useOutlet } from 'react-router-dom';
+import SliceTransition from '../animations/SliceTransition';
 
-interface PageTransitionProps {
-  children: React.ReactNode;
-}
-
-const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
-  const shouldReduceMotion = useReducedMotion();
-
-  const variants: Variants = {
-    initial: { opacity: 0, y: shouldReduceMotion ? 0 : 10 },
-    enter: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { duration: 0.6, ease: [0.33, 1, 0.68, 1] as [number, number, number, number] } 
-    },
-    exit: { 
-      opacity: 0, 
-      y: shouldReduceMotion ? 0 : -10, 
-      transition: { duration: 0.4, ease: [0.33, 1, 0.68, 1] as [number, number, number, number] } 
-    },
-  };
+const PageTransition: React.FC = () => {
+  const location = useLocation();
+  const outlet = useOutlet();
 
   return (
-    <motion.div
-      variants={variants}
-      initial="initial"
-      animate="enter"
-      exit="exit"
+    <AnimatePresence 
+      mode="wait" 
+      initial={false}
+      onExitComplete={() => {
+        // Scroll to top automatically on route change after the old page exits
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      }}
     >
-      {children}
-    </motion.div>
+      <SliceTransition key={location.pathname}>
+        <main className="flex-grow flex flex-col w-full">
+          <Suspense fallback={<div className="w-full min-h-screen bg-navy z-0" />}>
+            {outlet}
+          </Suspense>
+        </main>
+      </SliceTransition>
+    </AnimatePresence>
   );
 };
 
