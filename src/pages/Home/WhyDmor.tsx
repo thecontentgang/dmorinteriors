@@ -41,7 +41,7 @@ const WhyDmor: React.FC = () => {
       className="relative w-full bg-white py-24 md:py-32 lg:py-40 px-6 lg:px-12 overflow-hidden text-navy"
     >
       <motion.div style={{ y: sectionY }} className="max-w-[1400px] mx-auto w-full">
-        
+
         {/* ── Section Header ── */}
         <div className="flex flex-col items-center text-center mb-16 md:mb-24 w-full">
           <h2 className="text-navy leading-[1.1] tracking-tight max-w-4xl">
@@ -68,16 +68,8 @@ const WhyDmor: React.FC = () => {
               >
                 {/* ── Card Content Padding ── */}
                 <div className="p-8 md:p-10 lg:p-12 flex flex-col flex-grow">
-                  
-                  {/* Top Branding Logo/Icon */}
-                  <div className="flex items-center gap-2 mb-8">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-brand">
-                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                    </svg>
-                    <span className="font-primary text-lg tracking-wide">
-                      DMOR
-                    </span>
-                  </div>
+
+
 
                   {/* Title & Description */}
                   <h3 className="font-primary text-3xl md:text-4xl mb-4 text-white">
@@ -98,7 +90,7 @@ const WhyDmor: React.FC = () => {
                     <img
                       src={reason.image}
                       alt={reason.title}
-                      className="absolute inset-0 w-full h-full object-cover object-top rounded-t-3xl border-t border-white/10 scale-105 group-hover:scale-100 transition-transform duration-700"
+                      className="absolute inset-0 w-full h-full object-cover object-top rounded-t-3xl"
                       loading="lazy"
                       decoding="async"
                     />

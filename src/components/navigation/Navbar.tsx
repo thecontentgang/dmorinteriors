@@ -150,7 +150,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme = 'transparent' }) => {
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${getThemeClasses()}`}
       >
         <div className="grid grid-cols-[1fr_auto_1fr] items-center px-4 py-2 md:px-12 md:py-2 max-w-[1920px] mx-auto w-full">
-          
+
           {/* Left: Menu Toggle */}
           <div className="flex justify-start z-50">
             <button
@@ -192,36 +192,41 @@ const Navbar: React.FC<NavbarProps> = ({ theme = 'transparent' }) => {
 
           {/* Right: Actions */}
           <div className="flex justify-end z-50 gap-2 md:gap-4 items-center">
-            <AnimatedRevealButton
-              className="hidden sm:inline-flex shadow-sm hover:shadow-md"
-              onClick={() => {
-                closeMenu();
-                openEstimation();
-              }}
-              label="ESTIMATE"
-              gap={8}
-              padding="4px 4px 4px 16px"
-              font={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase" }}
-              colors={
-                navbarMode === 'menu' 
-                  ? { fill: "transparent", textColor: "#E8E2D5", hoverTextColor: "#2F4156" }
-                  : { fill: "#E8E2D5", textColor: "#2F4156", hoverTextColor: "#FFFFFF" }
-              }
-              border={{ 
-                borderColor: navbarMode === 'menu' ? "rgba(255, 255, 255, 0.2)" : "rgba(47, 65, 86, 0.2)", 
-                borderWidth: 1 
-              }} 
-              icon={{
-                type: "icon",
-                icon: "arrow-diagonal",
-                background: navbarMode === 'menu' ? "#C6A87C" : "#2F4156", 
-                color: navbarMode === 'menu' ? "#2F4156" : "#FFFFFF",      
-                badgeSize: 32,
-                size: 12,
-                padding: 0
-              }}
-            />
 
+            {/* WRAPPED IN A DIV to guarantee it hides on mobile */}
+            <div className="hidden sm:block">
+              <AnimatedRevealButton
+                className="shadow-sm hover:shadow-md"
+                onClick={() => {
+                  closeMenu();
+                  openEstimation();
+                }}
+                label="ESTIMATE"
+                gap={8}
+                padding="4px 4px 4px 16px"
+                font={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase" }}
+                colors={
+                  navbarMode === 'menu'
+                    ? { fill: "transparent", textColor: "#E8E2D5", hoverTextColor: "#2F4156" }
+                    : { fill: "#E8E2D5", textColor: "#2F4156", hoverTextColor: "#FFFFFF" }
+                }
+                border={{
+                  borderColor: navbarMode === 'menu' ? "rgba(255, 255, 255, 0.2)" : "rgba(47, 65, 86, 0.2)",
+                  borderWidth: 1
+                }}
+                icon={{
+                  type: "icon",
+                  icon: "arrow-diagonal",
+                  background: navbarMode === 'menu' ? "#C6A87C" : "#2F4156",
+                  color: navbarMode === 'menu' ? "#2F4156" : "#FFFFFF",
+                  badgeSize: 32,
+                  size: 12,
+                  padding: 0
+                }}
+              />
+            </div>
+
+            {/* Inquire Button - Visible on ALL screen sizes */}
             <AnimatedRevealButton
               className="shadow-sm hover:shadow-md"
               onClick={handleInquireClick}
@@ -230,19 +235,19 @@ const Navbar: React.FC<NavbarProps> = ({ theme = 'transparent' }) => {
               padding="4px 4px 4px 16px"
               font={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase" }}
               colors={
-                navbarMode === 'menu' 
+                navbarMode === 'menu'
                   ? { fill: "transparent", textColor: "#E8E2D5", hoverTextColor: "#2F4156" }
                   : { fill: "#E8E2D5", textColor: "#2F4156", hoverTextColor: "#FFFFFF" }
               }
-              border={{ 
-                borderColor: navbarMode === 'menu' ? "rgba(255, 255, 255, 0.2)" : "rgba(47, 65, 86, 0.2)", 
-                borderWidth: 1 
-              }} 
+              border={{
+                borderColor: navbarMode === 'menu' ? "rgba(255, 255, 255, 0.2)" : "rgba(47, 65, 86, 0.2)",
+                borderWidth: 1
+              }}
               icon={{
                 type: "icon",
                 icon: "arrow-diagonal",
-                background: navbarMode === 'menu' ? "#C6A87C" : "#2F4156", 
-                color: navbarMode === 'menu' ? "#2F4156" : "#FFFFFF",      
+                background: navbarMode === 'menu' ? "#C6A87C" : "#2F4156",
+                color: navbarMode === 'menu' ? "#2F4156" : "#FFFFFF",
                 badgeSize: 32,
                 size: 12,
                 padding: 0
