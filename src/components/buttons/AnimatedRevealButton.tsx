@@ -194,6 +194,7 @@ export default function AnimatedRevealButton(props: Props) {
             const radius = radiusFromPercent(w, h, rounded)
             btn.style.borderRadius = `${radius}px`
             if (strokeEl) strokeEl.style.borderRadius = `${radius + bWidth}px`
+            if (scope.current) (scope.current as HTMLElement).style.borderRadius = `${radius}px`
 
             const room = Math.min(h, w) - 2 * effectiveInset
             if (room <= 0) return

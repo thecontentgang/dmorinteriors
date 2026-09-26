@@ -138,8 +138,8 @@ const HeroSection: React.FC = () => {
           <span className="font-body text-[8px] md:text-[9px] uppercase tracking-[0.25em] text-white/60 font-medium">Curated Spaces</span>
         </div>
         <div className="hero-stat opacity-0 flex flex-col items-center md:items-end text-center md:text-right">
-          <span className="font-primary text-2xl md:text-3xl lg:text-4xl text-brand leading-none mb-1">12</span>
-          <span className="font-body text-[8px] md:text-[9px] uppercase tracking-[0.25em] text-white/60 font-medium">Design Awards</span>
+          <span className="font-primary text-2xl md:text-3xl lg:text-4xl text-brand leading-none mb-1">12+</span>
+          <span className="font-body text-[8px] md:text-[9px] uppercase tracking-[0.25em] text-white/60 font-medium">Designers</span>
         </div>
       </div>
 

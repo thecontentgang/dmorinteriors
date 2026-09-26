@@ -43,6 +43,6 @@ export const projects: Project[] = [
     location: "Hyderabad",
     year: "2024",
     description: "A refined living space blending classic architectural balance with modern functional luxury.",
-    images: Array.from({ length: 23 }, (_, i) => `/images/projects/akruthi/akruthi-${i + 1}.jpg`)
+    images: Array.from({ length: 22 }, (_, i) => `/images/projects/akruthi/akruthi-${i + 2}.jpg`)
   }
 ];

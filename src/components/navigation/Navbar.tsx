@@ -315,8 +315,8 @@ const Navbar: React.FC<NavbarProps> = ({ theme = 'transparent' }) => {
                 exit="closed"
                 className="flex flex-col items-center justify-center gap-2 pt-4 md:pt-6 text-white font-body text-xs md:text-sm tracking-widest uppercase border-t border-cream/10"
               >
-                <a href="mailto:dmorinteriorstudio@gmail.com" className="hover:text-brand transition-colors duration-300">
-                  dmorinteriorstudio@gmail.com
+                <a href="mailto:dmorinterior17@gmail.com" className="hover:text-brand transition-colors duration-300">
+                  dmorinterior17@gmail.com
                 </a>
                 <div className="flex gap-4">
                   <a href="tel:+918977066990" className="hover:text-brand transition-colors duration-300">

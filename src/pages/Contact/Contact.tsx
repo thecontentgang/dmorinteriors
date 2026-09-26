@@ -109,8 +109,8 @@ const Contact: React.FC = () => {
               <span className="font-body text-[10px] uppercase tracking-[0.25em] text-navy/40 font-semibold">
                 Direct Inquiry
               </span>
-              <a href="mailto:dmorinteriorstudio@gmail.com" className="font-primary text-xl sm:text-2xl md:text-3xl text-navy hover:text-brand transition-colors duration-300 break-all">
-                dmorinteriorstudio@gmail.com
+              <a href="mailto:dmorinterior17@gmail.com" className="font-primary text-xl sm:text-2xl md:text-3xl text-navy hover:text-brand transition-colors duration-300 break-all">
+                dmorinterior17@gmail.com
               </a>
             </motion.div>
 

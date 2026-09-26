@@ -1,5 +1,5 @@
 import AboutSection from "./AboutSection"
-import DesignPhilosophy from "./DesignPhilosophy"
+// import DesignPhilosophy from "./DesignPhilosophy"
 import HeroSection from "./HeroSection"
 import FeaturedProjects from "./ProjectsSection"
 import ServicesSection from "./ServicesSection"
@@ -24,7 +24,7 @@ const HomePage = () => {
     <HeroSection />
     <AboutSection />
     <FeaturedProjects />
-    <DesignPhilosophy />
+    {/* <DesignPhilosophy /> */}
     <ServicesSection />
     <SignatureProject />
     <WhyDmor />

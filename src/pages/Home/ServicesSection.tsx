@@ -11,7 +11,7 @@ const services = [
   },
   {
     id: "02",
-    title: "House Re-Design",
+    title: "House Renovation",
     description: "Transforming existing footprints into revitalized, contemporary sanctuaries built for modern living.",
     image: "/images/backgrounds/house-redesign.png",
   },
